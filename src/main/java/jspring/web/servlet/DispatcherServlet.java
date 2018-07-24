@@ -23,4 +23,10 @@ public class DispatcherServlet extends FrameworkServlet {
 	
 	}
 
+	@Override
+	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
