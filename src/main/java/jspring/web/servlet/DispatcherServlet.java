@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 public class DispatcherServlet extends FrameworkServlet {
 
 	
-	
 	/**
 	 * 
 	 */
@@ -19,7 +18,6 @@ public class DispatcherServlet extends FrameworkServlet {
 	 * @throws Exception
 	 */
 	protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 	
 	}
 
