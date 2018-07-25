@@ -2,9 +2,11 @@ package jspring.web.servlet.config;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.regex.Matcher;
 
 /**
@@ -12,13 +14,16 @@ import java.util.regex.Matcher;
  */
 public class PackageScan {
 
-    private String [] basepackages;
+    private Set<String> basePackages;
 
     public PackageScan(){
-        this.basepackages=new String[]{};
+        this.basePackages=new LinkedHashSet<String>();
     }
     public PackageScan(String [] basepackages){
-        this.basepackages=basepackages;
+    	this.basePackages=new LinkedHashSet<String>();
+        for(String basepackage:basepackages){
+        	this.basePackages.add(basepackage);
+        }
     }
     /**
      * 获取默认包扫描根路径
@@ -44,19 +49,12 @@ public class PackageScan {
     }
 
     /**
-     * 获取需要扫描的包路径
-     * @return
-     */
-    private String[] getBasePackage(){
-        return this.basepackages;
-    }
-    /**
      * 查找当前路径下的全部注解类
      * @param path
      * @return
      */
-    private Map<String,Class<?>> findAllAnnotationClassByPath(String path,String basepackage){
-        Map<String,Class<?>> clazzs=new HashMap<String,Class<?>>();
+    private Set<Class<?>> findAllAnnotationClassByPath(String path,String basepackage){
+        Set<Class<?>> clazzs=new LinkedHashSet<Class<?>>();
         Queue<String> dirs=new LinkedList<String>();
         dirs.add(path);
         File file=null;
@@ -68,7 +66,7 @@ public class PackageScan {
                     String className=absolutePath.substring(path.length()-1,absolutePath.length()-6).replaceAll(Matcher.quoteReplacement(File.separator),"\\.");
                     Class<?> clazz=Class.forName(basepackage+className);
                     if (clazz.getDeclaredAnnotations().length>0) {
-                        clazzs.put(clazz.getName(), clazz);
+                        clazzs.add(clazz);
                     }
                 } catch (Exception e) {
                     //当前class找不到异常
@@ -87,21 +85,32 @@ public class PackageScan {
      * 查找指定包路径下的所有的注解class，可以去重
      * @return
      */
-    public Map<String,Class<?>> loadAllAnnotationClass(){
-        Map<String,Class<?>> clazzs=new HashMap<String,Class<?>>();
-        String[] basePackages=getBasePackage();
-        if (basePackages==null||basePackages.length==0){//没有指定包路径，默认进行当前工程下全部查找
-            clazzs.putAll(findAllAnnotationClassByPath(getInitPath(),""));
+    public Set<Class<?>> loadAllAnnotationClass(){
+    	Set<Class<?>> clazzs=new LinkedHashSet<Class<?>>();
+        if (basePackages==null||basePackages.size()==0){//没有指定包路径，默认进行当前工程下全部查找
+            clazzs.addAll(findAllAnnotationClassByPath(getInitPath(),""));
         }else{
             for (String pkname:basePackages) {//根据指定的多个包路径进行查找
-                clazzs.putAll(findAllAnnotationClassByPath(getInitPath(pkname),pkname));
+            	clazzs.addAll(findAllAnnotationClassByPath(getInitPath(pkname),pkname));
             }
         }
         return clazzs;
     }
     
-	public void setBasepackages(String[] basepackages) {
-		this.basepackages = basepackages;
-	}
+    public void  addPackage(String packages){
+    	basePackages.add(packages);
+    }
+    
+    public void  addPackages(Set<String> packages){
+    	basePackages.addAll(packages);
+    }
+    
+    public void empty(){
+    	basePackages.clear();
+    }
+    
+    public boolean isEmpty(){
+    	return basePackages.isEmpty();
+    }
 
 }

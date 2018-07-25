@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jspring.web.servlet.context.ApplicationContext;
+
 /**
  * 
  * @author wills
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class FrameworkServlet extends HttpServlet {
 
+	private ApplicationContext applicationContext;
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
@@ -51,6 +55,8 @@ public abstract class FrameworkServlet extends HttpServlet {
 		}
 	}
 
+	
+	
 	
 	protected abstract void doService(HttpServletRequest request, HttpServletResponse response)
 			throws Exception;

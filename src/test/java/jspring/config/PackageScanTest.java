@@ -1,6 +1,7 @@
 package jspring.config;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,18 +21,19 @@ public class PackageScanTest {
 	
 	@Test
 	public void testAll() throws Exception {
-		pkScan.setBasepackages(new String[]{});
-		Map<String, Class<?>> clazzs = pkScan.loadAllAnnotationClass();
-		for(Map.Entry<String, Class<?>> entry:clazzs.entrySet()){
-			System.out.println(entry.getKey()+":"+entry.getValue());
+//		pkScan.setBasepackages(new String[]{});
+		Set<Class<?>> clazzs = pkScan.loadAllAnnotationClass();
+		for(Class<?> entry:clazzs){
+			System.out.println(entry.getName());
 		}
 	}
+	
 	@Test
 	public void testBasePackage() throws Exception {
-		pkScan.setBasepackages(new String[]{"jspring.home"});
-		Map<String, Class<?>> clazzs = pkScan.loadAllAnnotationClass();
-		for(Map.Entry<String, Class<?>> entry:clazzs.entrySet()){
-			System.out.println(entry.getKey()+":"+entry.getValue());
+		pkScan.addPackage("jspring.home");
+		Set<Class<?>> clazzs = pkScan.loadAllAnnotationClass();
+		for(Class<?> entry:clazzs){
+			System.out.println(entry.getName());
 		}
 	}
 }
