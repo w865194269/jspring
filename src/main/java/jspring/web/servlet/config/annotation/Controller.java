@@ -1,4 +1,4 @@
-package jspring.context.stereotype;
+package jspring.web.servlet.config.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface Controller {
 
 	String value() default "";
+	
 }
