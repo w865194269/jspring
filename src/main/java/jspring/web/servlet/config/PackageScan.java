@@ -40,10 +40,10 @@ public class PackageScan {
      */
     private String getInitPath(String pkname){
         String rootpath="./";
+        
         if(pkname!=null||!"".equals(pkname)){
-            rootpath=Thread.currentThread().getContextClassLoader().getResource(
-                    pkname.indexOf(".")!=-1?pkname.replaceAll("\\.","/"):pkname
-            ).getFile();
+        	String resource=pkname.indexOf(".")!=-1?pkname.replaceAll("\\.","/"):pkname;
+            rootpath=Thread.currentThread().getContextClassLoader().getResource(resource).getFile();
         }
         return rootpath;
     }
@@ -113,4 +113,21 @@ public class PackageScan {
     	return basePackages.isEmpty();
     }
 
+    
+    
+    public static void main(String[] args) {
+    	PackageScan pkScan=new PackageScan();
+		Set<Class<?>> clazzs = pkScan.loadAllAnnotationClass();
+		for(Class<?> entry:clazzs){
+			System.out.println(entry.getName());
+		}
+		System.out.println("---------------------");
+		pkScan.addPackage("jspring.home");
+		clazzs.clear();
+		clazzs = pkScan.loadAllAnnotationClass();
+		for(Class<?> entry:clazzs){
+			System.out.println(entry.getName());
+		}
+	}
+    
 }

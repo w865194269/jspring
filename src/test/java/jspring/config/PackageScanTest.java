@@ -36,4 +36,12 @@ public class PackageScanTest {
 			System.out.println(entry.getName());
 		}
 	}
+	
+	public static void main(String[] args) {
+		PackageScan pkScan=new PackageScan();
+		Set<Class<?>> clazzs = pkScan.loadAllAnnotationClass();
+		for(Class<?> entry:clazzs){
+			System.out.println(entry.getName());
+		}
+	}
 }

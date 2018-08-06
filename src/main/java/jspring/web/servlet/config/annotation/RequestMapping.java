@@ -11,4 +11,6 @@ public @interface RequestMapping {
 	
 	String value() default "";
 	
+	RequestMethodType method() default RequestMethodType.GET;
+	
 }
